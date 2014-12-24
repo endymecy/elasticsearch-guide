@@ -16,7 +16,7 @@
 
 要检查集群健康，我们将使用_cat API。需要事先记住的是，我们的节点HTTP的端口是9200：
 
-```
+```shell
 curl 'localhost:9200/_cat/health?v'
 ```
 
