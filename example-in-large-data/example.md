@@ -99,7 +99,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 运行时间5091ms
 
-等价于的sql语句是：select * from top_user order by buyer_nick asc limit 20,40;
+等价于的sql语句是：`select * from top_user order by buyer_nick asc limit 20,40;`
 
 ### 指定_source字段
 
