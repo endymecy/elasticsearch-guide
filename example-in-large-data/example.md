@@ -20,7 +20,17 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 }
 }'
 ```
-Top_user表中总共有18个字段，类型包括bigint，int，varchar，datetime，总共有15292729条数据，数据总量为4.2G。
+Top_user表中总共有18个字段，类型包括bigint，int，varchar，datetime，总共有15292729条数据，数据总量为4.2G。其主要字段如下所示：
+
+Field | Type
+--- | ---
+buyer_nick | varchar(50)
+sex | varchar(10)
+level | int(10)
+score | int(10)
+city | varchar(50)
+created | datetime
+
 
 ## 基本操作
 
