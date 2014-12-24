@@ -7,7 +7,7 @@
 ## 导入数据
 
 将ODS的top_user表中所有数据导入到elastic中，用来进行测试。
-```
+```shell
 curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 "type" : "jdbc",
     "jdbc" : {
@@ -36,19 +36,19 @@ created | datetime
 
 ### 查看节点信息
 
-```
+```shell
 curl 'localhost:9200/_cat/nodes?v'
 ```
 
 ### 查看索引信息
 
-```
+```shell
 curl 'localhost:9200/_cat/indices?v'
 ```
 
 ### 删除索引信息
 
-```
+```shell
 curl -XDELETE 'localhost:9200/top_user?pretty'
 curl -XDELETE 'localhost:9200/top_trade?pretty'
 curl -XDELETE 'localhost:9200/_river?pretty'
@@ -60,7 +60,7 @@ curl -XDELETE 'localhost:9200/_river?pretty'
 
 ### 查看所有数据（默认返回10条）
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} }
@@ -72,7 +72,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### 分页查询（20-40）
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} },
@@ -86,7 +86,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### 按照字段排序（默认返回10条）
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} },
@@ -97,7 +97,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 等价于的sql语句是：`select * from top_user order by buyer_nick asc;`
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} },
@@ -113,7 +113,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### 指定_source字段
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
     "query": { "match_all": {} },
@@ -126,7 +126,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### match查询
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match": { "city": "上海" } }
@@ -136,7 +136,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 等价于的sql语句是：`select * from top_user where city="上海";`
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": {
@@ -155,7 +155,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### 通过过滤器查询
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
     "query": {
@@ -180,7 +180,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 ### 聚合查询
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
     "size": 0,
@@ -199,7 +199,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 一下得到每个level的用户的平均得分，并按照得分排序
 
-```
+```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
     "size": 0,

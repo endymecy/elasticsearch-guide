@@ -21,7 +21,7 @@ curl 'localhost:9200/_cat/health?v'
 ```
 
 相应的响应是：
-```
+```shell
 epoch      timestamp cluster       status node.total node.data shards pri relo init unassign
 1394735289 14:28:09  elasticsearch green           1         1      0   0    0    0        0
 ```
@@ -35,12 +35,12 @@ epoch      timestamp cluster       status node.total node.data shards pri relo i
 
 我们也可以获得节集群中的节点列表：
 
-```
+```shell
 curl 'localhost:9200/_cat/nodes?v'
 ```
 
 对应的响应是:
-```
+```shell
 curl 'localhost:9200/_cat/nodes?v'
 host         ip        heap.percent ram.percent load node.role master name
 mwubuntu1    127.0.1.1            8           4 0.00 d         *      New Goblin
@@ -51,11 +51,11 @@ mwubuntu1    127.0.1.1            8           4 0.00 d         *      New Goblin
 
 让我们看一下我们的索引：
 
-```
+```shell
 curl 'localhost:9200/_cat/indices?v'
 ```
 对应的响应是:
-```
+```shell
 curl 'localhost:9200/_cat/indices?v'
 health index pri rep docs.count docs.deleted store.size pri.store.size
 ```
@@ -65,7 +65,7 @@ health index pri rep docs.count docs.deleted store.size pri.store.size
 
 现在让我们创建一个叫做“customer” 的索引，然后再列出所有的索引：
 
-```
+```shell
 curl -XPUT 'localhost:9200/customer?pretty'
 curl 'localhost:9200/_cat/indices?v'
 ```
@@ -73,7 +73,7 @@ curl 'localhost:9200/_cat/indices?v'
 
 响应如下：
 
-```
+```shell
 curl -XPUT 'localhost:9200/customer?pretty'
 {
   "acknowledged" : true
@@ -95,14 +95,14 @@ yellow customer   5   1          0            0       495b           495b
 
 让我们将一个简单的客户文档索引到customer 索引 、“external” 类型中，这个文档的ID是1，操作如下：
 
-```
+```shell
 curl -XPUT 'localhost:9200/customer/external/1?pretty' -d '
 {
   "name": "John Doe"
 }'
 ```
 响应如下：
-```
+```shell
 curl -XPUT 'localhost:9200/customer/external/1?pretty' -d '
 {
   "name": "John Doe"
@@ -122,13 +122,13 @@ curl -XPUT 'localhost:9200/customer/external/1?pretty' -d '
 
 现在，让我们把刚刚索引的文档取出来：
 
-```
+```shell
 curl -XGET 'localhost:9200/customer/external/1?pretty'
 ```
 
 响应如下：
 
-```
+```shell
 curl -XGET 'localhost:9200/customer/external/1?pretty'
 {
   "_index" : "customer",
@@ -145,13 +145,13 @@ curl -XGET 'localhost:9200/customer/external/1?pretty'
 
 现在让我们删除我们刚刚创建的索引，并再次列出所有的索引：
 
-```
+```shell
 curl -XDELETE 'localhost:9200/customer?pretty'
 curl 'localhost:9200/_cat/indices?v'
 ```
 
 响应如下：
-```
+```shell
 curl -XDELETE 'localhost:9200/customer?pretty'
 {
   "acknowledged" : true
@@ -164,7 +164,7 @@ health index pri rep docs.count docs.deleted store.size pri.store.size
 
 我们细看一下我们学过的API命令：
 
-```
+```shell
 curl -XPUT 'localhost:9200/customer'
 curl -XPUT 'localhost:9200/customer/external/1' -d '
 {
@@ -176,7 +176,7 @@ curl -XDELETE 'localhost:9200/customer'
 
 仔细研究以上的命令，我们可以发现访问Elasticsearch中数据的一个模式。这个模式可以被总结为：
 
-```
+```shell
 curl -X<REST Verb> <Node>:<Port>/<Index>/<Type>/<ID>
 ```
 
