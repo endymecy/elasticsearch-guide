@@ -15,4 +15,5 @@ elasticsearch-guide
     * [获取API](java-api/get-api.md)
     * [删除API](java-api/delete-api.md)
     * [更新API](java-api/update-api.md)
+    * [bulk API](java-api/bulk-api.md)
 * [例子](example-in-large-data/example.md)
