@@ -63,3 +63,4 @@ Elasticsearch和Lucene类必须在相同的jboss模块中，你应该像如下�
 * [查询API](search-api.md)
 * [计数API](count-api.md)
 * [基于查询的删除API](delete-by-query-api.md)
+* [facets](facets.md)
