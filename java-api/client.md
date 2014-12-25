@@ -24,12 +24,10 @@
 import static org.elasticsearch.node.NodeBuilder.*;
 
 // on startup
-
 Node node = nodeBuilder().node();
 Client client = node.client();
 
 // on shutdown
-
 node.close();
 ```
 
@@ -55,12 +53,10 @@ Client client = node.client();
 import static org.elasticsearch.node.NodeBuilder.*;
 
 // on startup
-
 Node node = nodeBuilder().client(true).node();
 Client client = node.client();
 
 // on shutdown
-
 node.close();
 ```
 
@@ -71,12 +67,10 @@ JVM上。运行在同一个JVM上的两个本地服务可以彼此发现并组�
 import static org.elasticsearch.node.NodeBuilder.*;
 
 // on startup
-
 Node node = nodeBuilder().local(true).node();
 Client client = node.client();
 
 // on shutdown
-
 node.close();
 ```
 
