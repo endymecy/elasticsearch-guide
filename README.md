@@ -17,4 +17,5 @@ elasticsearch-guide
     * [更新API](java-api/update-api.md)
     * [bulk API](java-api/bulk-api.md)
     * [查询API](java-api/search-api.md)
+    * [计数API](java-api/count-api.md)
 * [例子](example-in-large-data/example.md)
