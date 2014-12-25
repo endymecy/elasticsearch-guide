@@ -4,3 +4,4 @@ Elasticsearch是一个高可扩展的、开源的全文本搜索和分析工具�
 * [安装](installation.md)
 * [操作集群](exploring-cluster.md)
 * [修改数据](modifying-data.md)
+* [操作数据](exploring-data.md)

@@ -68,7 +68,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 ```
 运行时间180ms
 
-等价于的sql语句是：`select * from top_user;`
+等价于的sql语句是：`select * from top_user limit 0,10;`
 
 ### 分页查询（20-40）
 
@@ -95,7 +95,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 ```
 运行时间5152ms
 
-等价于的sql语句是：`select * from top_user order by buyer_nick asc;`
+等价于的sql语句是：`select * from top_user order by buyer_nick asc limit 0,10;`
 
 ```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
@@ -134,7 +134,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 ```
 运行时间358ms
 
-等价于的sql语句是：`select * from top_user where city="上海";`
+等价于的sql语句是：`select * from top_user where city="上海" limit 0,10;`
 
 ```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
@@ -151,7 +151,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 ```
 运行时间427ms
 
-等价于的sql语句是：`select * from top_user where city="上海" or city="北京";`
+等价于的sql语句是：`select * from top_user where city="上海" or city="北京" limit 0,10;`
 
 ### 通过过滤器查询
 
@@ -176,7 +176,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 运行时间649ms
 
-等价于的sql语句是：`select * from top_user where score>200 and score<2000;`
+等价于的sql语句是：`select * from top_user where score>200 and score<2000 limit 0,10;`
 
 ### 聚合查询
 
@@ -195,7 +195,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 ```
 运行时间1079ms
 
-等价于的sql语句是: `select count(*) from top_user group by city order by count(*) desc;`
+等价于的sql语句是: `select count(*) from top_user group by city order by count(*) desc limit 0,10;`
 
 一下得到每个level的用户的平均得分，并按照得分排序
 
@@ -225,5 +225,5 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 运行时间1846ms
 
-等价于的sql语句是: `select max(score) as avg_score from top_user group by level order by avg_score desc;`
+等价于的sql语句是: `select max(score) as avg_score from top_user group by level order by avg_score desc limit 0,10;`
 

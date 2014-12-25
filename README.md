@@ -7,4 +7,5 @@ elasticsearch-guide
      * [安装](getting-started/installation.md)
      * [操作集群](getting-started/exploring-cluster.md)
      * [修改数据](getting-started/modifying-data.md)
+     * [操作数据](getting-started/exploring-data.md)
 * [例子](example-in-large-data/example.md)
