@@ -8,4 +8,8 @@ elasticsearch-guide
      * [操作集群](getting-started/exploring-cluster.md)
      * [修改数据](getting-started/modifying-data.md)
      * [操作数据](getting-started/exploring-data.md)
+  * [文档API](document-apis/README.md)
+  * [java API](java-api/README.md)
+    * [客户端](java-api/client.md)
+    * [索引API](java-api/index-api.md)
 * [例子](example-in-large-data/example.md)
