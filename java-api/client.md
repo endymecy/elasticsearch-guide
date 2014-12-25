@@ -2,7 +2,7 @@
 
 有多个地方需要使用`Java client`:
 
-- 在存在的集群中执行标准的[index], [get], [delete]和[search]
+- 在存在的集群中执行标准的[index](index-api.md), [get](get-api.md), [delete](delete-api.md)和[search](search-api.md)
 - 在集群中执行管理任务
 - 当你要运行嵌套在你的应用程序中的Elasticsearch的时候或者当你要运行单元测试或者集合测试的时候，启动所有节点
 
