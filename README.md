@@ -18,4 +18,5 @@ elasticsearch-guide
     * [bulk API](java-api/bulk-api.md)
     * [查询API](java-api/search-api.md)
     * [计数API](java-api/count-api.md)
+    * [基于查询的删除API](java-api/delete-by-query-api.md)
 * [例子](example-in-large-data/example.md)
