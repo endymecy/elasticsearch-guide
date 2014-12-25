@@ -60,3 +60,4 @@ Elasticsearch和Lucene类必须在相同的jboss模块中，你应该像如下�
 * [删除API](delete-api.md)
 * [更新API](update-api.md)
 * [bulk API](bulk-api.md)
+* [查询API](search-api.md)
