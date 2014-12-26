@@ -52,7 +52,6 @@ curl 'localhost:9200/_cat/indices?v'
 
 ```shell
 curl -XDELETE 'localhost:9200/top_user?pretty'
-curl -XDELETE 'localhost:9200/top_trade?pretty'
 curl -XDELETE 'localhost:9200/_river?pretty'
 ```
 
