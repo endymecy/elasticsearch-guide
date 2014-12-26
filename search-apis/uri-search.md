@@ -25,3 +25,4 @@ Name | Description
 `search_type` | 搜索操作执行的类型，有`dfs_query_then_fetch`, `dfs_query_and_fetch`, `query_then_fetch`, `query_and_fetch`, `count`, `scan`几种，默认是`query_then_fetch`
 `lowercase_expanded_terms` | terms是否自动小写，默认是true
 `analyze_wildcard` | 是否分配通配符和前缀查询，默认是false
+`terminate_after` | The maximum number of documents to collect for each shard, upon reaching which the query execution will terminate early. If set, the response will have a boolean field terminated_early to indicate whether the query execution has actually terminated_early. Defaults to no terminate_after.
