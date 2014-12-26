@@ -276,6 +276,74 @@ or
 }
 ```
 
+`*`可以被用来加载文档中的所有字段。
+
+如果`fields`数组为空，那么就只会返回`_id`和`_type`字段。
+
+```shell
+{
+    "fields" : [],
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    }
+}
+```
+
+为了向后兼容，如果`fields`参数指定的字段在文档中不存在，它将会加载`_source`，并从中抽取这个字段。这个功能已经被source过滤器替代。
+
+从文档中获取的字段值总以数组的方式返回。但是源数据字段如`_routing`和`_parent`却从不以数组的方式返回。
+
+只有叶子字段可以通过`field`选项返回。所以对象字段不能被返回，这样的操作会报错。
+
+### partial
+
+从`_source`加载数据时，partial字段可以用来使用通配符来控制哪部分的`_source`将被加载。例如
+
+```shell
+{
+    "query" : {
+        "match_all" : {}
+    },
+    "partial_fields" : {
+        "partial1" : {
+            "include" : "obj1.obj2.*",
+        }
+    }
+}
+```
+
+或者
+
+```shell
+{
+    "query" : {
+        "match_all" : {}
+    },
+    "partial_fields" : {
+        "partial1" : {
+            "include" : "obj1.obj2.*",
+            "exclude" : "obj1.obj3.*"
+        }
+    }
+}
+```
+
+include和exclude都支持多模式
+
+```shell
+{
+    "query" : {
+        "match_all" : {}
+    },
+    "partial_fields" : {
+        "partial1" : {
+            "include" : ["obj1.obj2.*", "obj1.obj4.*"],
+            "exclude" : "obj1.obj3.*"
+        }
+    }
+}
+```
+
 
 
 
