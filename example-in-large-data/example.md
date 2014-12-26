@@ -6,21 +6,23 @@
 
 ## 导入数据
 
-将ODS的top_user表中所有数据导入到elastic中，用来进行测试。
+需要下载[相关插件](https://github.com/jprante/elasticsearch-river-jdbc#time-based-selecting)。
+
+将ODS的yourtable表中所有数据导入到Elasticsearch中，用来进行测试。
 ```shell
 curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 "type" : "jdbc",
     "jdbc" : {
-        "url" : "jdbc:mysql://host:3306/rds_ods_01",
+        "url" : "jdbc:mysql://yourhost:3306/yourdb",
         "user" : "*",
         "password" : "*",
         "index" : "top_user",
         "type" : " top_user",
-        "sql" : "select * from top_user"
+        "sql" : "select * from yourtable"
 }
 }'
 ```
-Top_user表中总共有18个字段，类型包括bigint，int，varchar，datetime，总共有15292729条数据，数据总量为4.2G。其主要字段如下所示：
+yourtable表中总共有18个字段，类型包括bigint，int，varchar，datetime，总共有15292729条数据，数据总量为4.2G。其主要字段如下所示：
 
 Field | Type
 --- | ---
@@ -90,26 +92,26 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} },
-"sort": { "buyer_nick": { "order": "asc" } }
+"sort": { "sex": { "order": "asc" } }
 }'
 ```
-运行时间5152ms
+运行时间610ms
 
-等价于的sql语句是：`select * from top_user order by buyer_nick asc limit 0,10;`
+等价于的sql语句是：`select * from top_user order by sex asc limit 0,10;`
 
 ```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 {
 "query": { "match_all": {} },
-"sort": { "buyer_nick": { "order": "asc" } },
+"sort": { "sex": { "order": "asc" } },
 "from": 20,
 "size": 40
 }'
 ```
 
-运行时间5091ms
+运行时间204ms
 
-等价于的sql语句是：`select * from top_user order by buyer_nick asc limit 20,40;`
+等价于的sql语句是：`select * from top_user order by sex asc limit 20,40;`
 
 ### 指定_source字段
 
@@ -227,3 +229,10 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 
 等价于的sql语句是: `select max(score) as avg_score from top_user group by level order by avg_score desc limit 0,10;`
 
+
+## 总结
+
+与mysql数据库查询相对比，可以发现Elasticsearch在聚合查询和非主键排序上效果提升明显。如下面两种情况，mysql很慢，但是Elasticsearch较快。
+
+- select * from top_user order by sex asc limit 20,40;
+- select count(*) from top_user group by city order by count(*) desc limit 0,10;

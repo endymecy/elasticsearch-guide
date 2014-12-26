@@ -18,7 +18,7 @@ Name | Description
 `_source` | 将其设置为false，查询就会放弃检索`_source`字段。你也可以通过设置`_source_include`和`_source_exclude`检索部分文档
 `fields` | 命中的文档返回的字段
 `sort` | 排序执行。可以以`fieldName`、`fieldName:asc`或者`fieldName:desc`的格式设置。`fieldName`既可以是存在的字段，也可以是`_score`字段。可以有多个sort参数
-`track_scores` | 当排序的时候，将其设置为true，可以返回其得分
+`track_scores` | 当排序的时候，将其设置为true，可以返回相关度得分
 `timeout` | 默认没有timeout
 `from` | 默认是0
 `size` | 默认是10
