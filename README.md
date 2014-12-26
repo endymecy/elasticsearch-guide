@@ -21,3 +21,4 @@ elasticsearch-guide
     * [基于查询的删除API](java-api/delete-by-query-api.md)
     * [facets](java-api/facets.md)
 * [例子](example-in-large-data/example.md)
+* [es vs solr](elasticsearch-vs-solr.md)
