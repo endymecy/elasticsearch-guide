@@ -58,7 +58,7 @@ curl -XDELETE 'localhost:9200/_river?pretty'
 
 ## 例子
 
-这些例子的运行时间以第一次运行为准。以后运行的运行时间比第一次运行的运行时间会大幅缩短。
+这些例子统计了5次运行的时间。有些查询在mysql上查询非常缓慢，所以没有将其运行时间列出。
 
 ### 查看所有数据（默认返回10条）
 
@@ -68,7 +68,14 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 "query": { "match_all": {} }
 }'
 ```
-运行时间180ms
+
+次数 | 运行时间（ms）
+--- | ---
+1 | 260
+2 | 124
+3 | 39
+4 | 38
+5 | 47
 
 等价于的sql语句是：`select * from top_user limit 0,10;`
 
@@ -82,7 +89,14 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 "size": 40
 }'
 ```
-运行时间67ms
+
+次数 | 运行时间（ms）
+--- | ---
+1 | 54
+2 | 59
+3 | 45
+4 | 49
+5 | 76
 
 等价于的sql语句是：`select * from top_user limit 20,40;`
 
@@ -95,23 +109,17 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 "sort": { "sex": { "order": "asc" } }
 }'
 ```
-运行时间610ms
+
+次数 | 运行时间（ms）
+--- | ---
+1 | 982
+2 | 1087
+3 | 208
+4 | 147
+5 | 114
 
 等价于的sql语句是：`select * from top_user order by sex asc limit 0,10;`
 
-```shell
-curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
-{
-"query": { "match_all": {} },
-"sort": { "sex": { "order": "asc" } },
-"from": 20,
-"size": 40
-}'
-```
-
-运行时间204ms
-
-等价于的sql语句是：`select * from top_user order by sex asc limit 20,40;`
 
 ### 指定_source字段
 
@@ -122,21 +130,18 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
     "_source": ["buyer_nick", "sex"]
 }'
 ```
-运行时间22ms
+
+次数 | 运行时间（ms）
+--- | ---
+1 | 92
+2 | 108
+3 | 53
+4 | 44
+5 | 79
 
 等价于的sql语句是：select buyer_nick from top_user;
 
 ### match查询
-
-```shell
-curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
-{
-"query": { "match": { "city": "上海" } }
-}'
-```
-运行时间358ms
-
-等价于的sql语句是：`select * from top_user where city="上海" limit 0,10;`
 
 ```shell
 curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
@@ -151,7 +156,14 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
  }
 }'
 ```
-运行时间427ms
+
+次数 | 运行时间（ms）
+--- | ---
+1 | 1410
+2 | 108
+3 | 57
+4 | 159
+5 | 79
 
 等价于的sql语句是：`select * from top_user where city="上海" or city="北京" limit 0,10;`
 
@@ -176,7 +188,13 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-运行时间649ms
+次数 | 运行时间（ms）
+--- | ---
+1 | 1644
+2 | 1096
+3 | 57
+4 | 30
+5 | 31
 
 等价于的sql语句是：`select * from top_user where score>200 and score<2000 limit 0,10;`
 
@@ -195,7 +213,13 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
     }
 }'
 ```
-运行时间1079ms
+次数 | 运行时间（ms）
+--- | ---
+1 | 2941
+2 | 1887
+3 | 542
+4 | 659
+5 | 612
 
 等价于的sql语句是: `select count(*) from top_user group by city order by count(*) desc limit 0,10;`
 
@@ -225,7 +249,13 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-运行时间1846ms
+次数 | 运行时间（ms）
+--- | ---
+1 | 3332
+2 | 2706
+3 | 599
+4 | 633
+5 | 542
 
 等价于的sql语句是: `select max(score) as avg_score from top_user group by level order by avg_score desc limit 0,10;`
 
