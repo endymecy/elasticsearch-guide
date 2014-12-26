@@ -26,7 +26,7 @@ elasticsearch相比于solr拥有一些重要特征：
 而Solr4.x内部节点之间使用了和外部一样的http协议，并且节点间的通信关系混乱，所以对目前的Solr4.x增加权限验证以及ACL将很难寻找到一个优雅的解决方案，但并不是不可以。
 
 
-现在，elasticsearch正在致力于开发shield项目，在不久的将来就会实现。但是并不清楚它是否会收费。
+现在，elasticsearch正在致力于开发shield项目，该项目为elasticsearch提供安全保证。它在不久的将来就会实现。但是并不清楚它是否会收费。
 
 #相关资料
 
