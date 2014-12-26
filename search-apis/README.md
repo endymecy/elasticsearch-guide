@@ -48,6 +48,8 @@ $ curl -XGET 'http://localhost:9200/twitter/tweet/_search?routing=kimchy' -d '{
 }
 ```
 
+## 目录
+
 * [搜索](search.md)
 * [URI搜索](uri-search.md)
 * [请求体(request body)搜索](request-body-search.md)
