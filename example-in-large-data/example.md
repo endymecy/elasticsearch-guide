@@ -68,7 +68,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 260
 2 | 124
@@ -89,7 +89,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 54
 2 | 59
@@ -109,7 +109,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 982
 2 | 1087
@@ -130,7 +130,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 92
 2 | 108
@@ -156,7 +156,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 1410
 2 | 108
@@ -187,7 +187,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 1644
 2 | 1096
@@ -212,7 +212,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
     }
 }'
 ```
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 2941
 2 | 1887
@@ -248,7 +248,7 @@ curl -XPOST 'localhost:9200/top_user/_search?pretty' -d '
 }'
 ```
 
-次数 | 运行时间（ms）
+运行次数 | 运行时间（ms）
 --- | ---
 1 | 3332
 2 | 2706
