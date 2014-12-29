@@ -344,7 +344,229 @@ include和exclude都支持多模式
 }
 ```
 
+## script fields
 
+```shell
+{
+    "query" : {
+        ...
+    },
+    "script_fields" : {
+        "test1" : {
+            "script" : "doc['my_field_name'].value * 2"
+        },
+        "test2" : {
+            "script" : "doc['my_field_name'].value * factor",
+            "params" : {
+                "factor"  : 2.0
+            }
+        }
+    }
+}
+```
+script fields可以在没有保存的字段（如例子中的`my_field_name`）上工作，返回自定义的值（脚本算出的值）。
+
+脚本也可以访问文档的`_source`字段，并抽取特定的元素（是一个对象类型）返回。
+
+```shell
+{
+        "query" : {
+            ...
+        },
+        "script_fields" : {
+            "test1" : {
+                "script" : "_source.obj1.obj2"
+            }
+        }
+    }
+```
+
+了解`doc['my_field'].value`和`_source.my_field`之间的不同是很重要的。首先，使用doc关键字，会使相应的字段加载到内存，执行速度更快但是更耗费内存。第二，`doc[...]`符号
+仅允许简单的值字段，只在基于字段的非分析或者单个项上有意义。
+
+另一方面，`_source`加载、分析source，然后仅仅返回相关部分的json。
+
+## field data fields
+
+返回一个字段的字段数据表示，如下例
+
+```shell
+{
+    "query" : {
+        ...
+    },
+    "fielddata_fields" : ["test1", "test2"]
+}
+```
+
+field data fields可以用于没有保存的字段。利用`fielddata_fields`参数会导致该字段的项加载到内存，增加内存的消耗。
+
+## post filter
+
+`post_filter`在搜索查询的最后，在聚合操作已经被计算后，应用于搜索的`hits`。下面用一个例子来说明。
+
+假设你正在卖衬衣，用户指定了两个过滤器：`color:red`和`brand:gucci`。一般情况下，你可以用到`filtered query`
+
+```shell
+curl -XGET localhost:9200/shirts/_search -d '
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [
+            { "term": { "color": "red"   }},
+            { "term": { "brand": "gucci" }}
+          ]
+        }
+      }
+    }
+  }
+}
+'
+```
+
+假设你有一个`model`字段允许用户限制它们的搜索结果为red Gucci `t-shirts`或者`dress-shirts`。可以用`terms aggregation`。
+
+```shell
+curl -XGET localhost:9200/shirts/_search -d '
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [
+            { "term": { "color": "red"   }},
+            { "term": { "brand": "gucci" }}
+          ]
+        }
+      }
+    }
+  },
+  "aggs": {
+    "models": {
+      "terms": { "field": "model" }
+    }
+  }
+}
+'
+```
+
+但是，也许你可能要告诉用户有多少其它颜色的Gucci shirts可以购买。如果你仅仅在`color`字段中加入`terms`聚合，那么你只会返回`red`的值，因为你的查询只返回红色的衬衣。
+
+你想要在聚合中包含所有颜色的衬衣，然后只在搜索结果中应用`colors`过滤。可以用到`post_filter`
+
+```shell
+curl -XGET localhost:9200/shirts/_search -d '
+{
+  "query": {
+    "filtered": {
+      "filter": {
+1        { "term": { "brand": "gucci" }}
+      }
+    }
+  },
+  "aggs": {
+    "colors": {
+2      "terms": { "field": "color" },
+    },
+    "color_red": {
+      "filter": {
+3        "term": { "color": "red" }
+      },
+      "aggs": {
+        "models": {
+4          "terms": { "field": "model" }
+        }
+      }
+    }
+  },
+5  "post_filter": {
+    "term": { "color": "red" },
+  }
+}
+'
+```
+
+第1点，查询所有的衬衣，不管它是什么颜色
+
+第2点，`colors`聚合返回流行颜色的衬衣
+
+第3、4点，`color_red`聚合利用子聚合`models`限制red Gucci shirt
+
+第5点，`post_filter`删除除了红色的其它颜色的结果
+
+## search type
+
+- query and fetch：参数是`query_and_fetch`,它在所有相关的分片上执行查询，返回结果。每个分片返回`size`个结果。因为每个分片返回`size`个结果，所以这个类型实际返回
+`size`乘以分片个数的结果。
+-  query then fetch：参数是`query_then_fetch`,查询也依赖于所有分片，但是只返回足够的信息(不是文档内容)。基于这个结果进行分类和排名，之后才访问相关分片的实际文档内容。
+这个类型返回结果的实际个数是`size`。这是默认的类型，你不必指定一个特定的`search_type`。
+- dfs query and fetch：参数是`dfs_query_and_fetch`,和`query_and_fetch`相似。除了初始scatter的阶段，这个阶段为了更精确的得分，计算分布式项频率。
+- dfs_query_then_fetch：参数是`dfs_query_then_fetch`,和`query_then_fetch`相似。除了初始scatter的阶段，这个阶段为了更精确的得分，计算分布式项频率。
+- count：参数是`count`,返回满足查询条件的`hits`的数量。
+- scan：参数是`scan`,`scan`查询类型禁用排序，允许通过大型结果集非常有效的滚动（scrolling）。
+
+## scroll
+
+一个`search`查询返回一“页”的结果，`scroll` API可以用来检索大数量的结果(甚至所有结果)。它类似关系型数据库中的游标。
+
+Scrolling并不用来作实时的用户查询，而是处理大数量的数据。
+
+为了利用`scrolling`，初始的搜索请求应该在查询字符串中指定`scroll`参数，告诉Elasticsearch，需要保持`搜索上下文`存活多长时间。
+
+```shell
+curl -XGET 'localhost:9200/twitter/tweet/_search?scroll=1m' -d '
+{
+    "query": {
+        "match" : {
+            "title" : "elasticsearch"
+        }
+    }
+}
+'
+```
+
+上面的请求结果中包含一个`scroll_id`,它应该传递给`scroll` API去检索下一批数据。
+
+```shell
+curl -XGET  'localhost:9200/_search/scroll?scroll=1m'   \
+     -d       'c2Nhbjs2OzM0NDg1ODpzRlBLc0FXNlNyNm5JWUc1'
+```
+
+### 保持查询上下文存活
+
+`scroll`参数告诉Elasticsearch需要保持`搜索上下文`存活多长时间。它的值不需要存活足够长时间处理所有的数据，它只需要足够的时间处理前面的批结果数据。每一个`scroll`请求
+设置了一个新的过期时间。
+
+### clear scroll api
+
+```shell
+curl -XDELETE localhost:9200/_search/scroll \
+     -d 'c2Nhbjs2OzM0NDg1ODpzRlBLc0FXNlNyNm5JWUc1'
+```
+
+```shell
+curl -XDELETE localhost:9200/_search/scroll \
+     -d 'c2Nhbjs2OzM0NDg1ODpzRlBLc0FXNlNyNm5JWUc1,aGVuRmV0Y2g7NTsxOnkxaDZ'
+```
+
+```shell
+curl -XDELETE localhost:9200/_search/scroll/_all
+```
+
+##  min_score
+
+```shell
+{
+    "min_score": 0.5,
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    }
+}
+```
+
+返回的文档的得分小于`min_score`。
 
 
 
