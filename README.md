@@ -39,3 +39,4 @@ elasticsearch-guide
     * [facets](java-api/facets.md)
 * [例子](example-in-large-data/example.md)
 * [es vs solr](elasticsearch-vs-solr.md)
+* [elasticsearch river jdbc](elasticsearch-river-jdbc.md)
