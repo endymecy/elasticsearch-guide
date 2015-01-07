@@ -149,6 +149,8 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 - $river.state.started - the timestamp of river start (from river state)
 - $river.state.timestamp - last timestamp of river activity (from river state)
 - $river.state.counter - counter from river state, counts the numbers of runs
+
+
 `locale` - the default locale (used for parsing numerical values, floating point character. Recommended values is "en_US")
 `timezone` - the timezone for JDBC setTimestamp() calls when binding parameters with timestamp values
 `rounding` - rounding mode for parsing numeric values. Possible values "ceiling", "down", "floor", "halfdown", "halfeven", "halfup", "unnecessary", "up"
