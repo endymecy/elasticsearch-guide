@@ -114,9 +114,13 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 #### `jdbc`块内部的参数
 
 `url` - the JDBC driver URL
+
 `user` - the JDBC database user
+
 `password` - the JDBC database password
+
 `sql` - SQL语句。既可以是一个字符串也可以是一个列表。
+
 ```shell
 "sql" : [
     {
@@ -134,8 +138,11 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 ]
 ```
 `sql.statement` - the SQL statement
+
 `sql.write` - 如果为true，SQL语句解释为一个insert/update语句，这个语句写权限。默认为false
+
 `sql.callable` - 如果为true，SQL语句解释为一个`CallableStatement`用于保存存储过程。默认为false
+
 `sql.parameter` - 绑定参数到SQL语句。可以用到一些指定的值
 
 - $now - the current timestamp
@@ -152,25 +159,45 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 
 
 `locale` - the default locale (used for parsing numerical values, floating point character. Recommended values is "en_US")
+
 `timezone` - the timezone for JDBC setTimestamp() calls when binding parameters with timestamp values
+
 `rounding` - rounding mode for parsing numeric values. Possible values "ceiling", "down", "floor", "halfdown", "halfeven", "halfup", "unnecessary", "up"
+
 `scale` - the precision of parsing numeric values
+
 `autocommit` - true if each statement should be automatically executed. Default is false
+
 `fetchsize` - the fetchsize for large result sets, most drivers use this to control the amount of rows in the buffer while iterating through the result set
+
 `max_rows` - limit the number of rows fetches by a statement, the rest of the rows is ignored
+
 `max_retries` - the number of retries to (re)connect to a database
+
 `max_retries_wait` - a time value for the time that should be waited between retries. Default is "30s"
+
 `resultset_type` - the JDBC result set type, can be TYPE_FORWARD_ONLY, TYPE_SCROLL_SENSITIVE, TYPE_SCROLL_INSENSITIVE. Default is TYPE_FORWARD_ONLY
+
 `resultset_concurrency` - the JDBC result set concurrency, can be CONCUR_READ_ONLY, CONCUR_UPDATABLE. Default is CONCUR_UPDATABLE
+
 `ignore_null_values` - if NULL values should be ignored when constructing JSON documents. Default is false
+
 `prepare_database_metadata` - if the driver metadata should be prepared as parameters for acccess by the river. Default is false
+
 `prepare_resultset_metadata` - if the result set metadata should be prepared as parameters for acccess by the river. Default is false
+
 `column_name_map` - a map of aliases that should be used as a replacement for column names of the database. Useful for Oracle 30 char column name limit. Default is null
+
 `query_timeout` - a second value for how long an SQL statement is allowed to be executed before it is considered as lost. Default is 1800
+
 `connection_properties` - a map for the connection properties for driver connection creation. Default is null
+
 `index` - the Elasticsearch index used for indexing
+
 `type` - the Elasticsearch type of the index used for indexing
+
 `index_settings` - optional settings for the Elasticsearch index
+
 `type_mapping` - optional mapping for the Elasticsearch index type
 
 #### 默认的参数设置
