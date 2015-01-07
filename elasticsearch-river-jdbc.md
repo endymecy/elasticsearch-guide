@@ -102,13 +102,21 @@ curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
 #### `jdbc`块外部的参数
 
 `strategy` - JDBC插件的策略。当前的实现有`simple`和`column`。
+
 `schedule` - a single or a list of cron expressions for scheduled execution
+
 `threadpoolsize` -scheduled executions的线程池大小
+
 `interval` - 两个river启动的延迟时间
+
 `max_bulk_actions` - 每个bulk索引请求提交的长度(默认是1000)
+
 `max_concurrrent_bulk_requests` - bulk请求的并行数量（默认是2*cpu core）
+
 `max_bulk_volume` - 一个bulk请求的最大容量(默认是10m)
+
 `max_request_wait` - 一个bulk请求最大的等待时间（默认是60s）
+
 `flush_interval` - flushing索引文档到bulk action的间隔时间
 
 #### `jdbc`块内部的参数
